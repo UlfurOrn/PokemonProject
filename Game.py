@@ -6,7 +6,7 @@ from Player import Player
 
 class Game:
     SIZE = (640, 480)
-    FRAME_RATE = 8
+    FRAME_RATE = Config.FPS
 
     def __init__(self):
         self.setup_pygame()
@@ -35,18 +35,19 @@ class Game:
         while self.do_loop:
 
             self.handle_events()
-            self.do_stuff()
+            self.handle_inputs()
 
             self.update()
 
-            self.screen.fill((255,255,255))
+            self.screen.fill((0,255,0))
             self.sprite_list.draw(self.screen)
 
             pygame.display.flip()
 
-            # Set framerate to 60
             self.clock.tick(self.FRAME_RATE)
     
+        pygame.quit()
+
 
     def update(self):
         self.sprite_list.update()
@@ -56,30 +57,20 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.do_loop = False
-            
-            elif event.type == pygame.KEYDOWN:
-                #self.handle_inputs(event.key)
-                pass
-
-
-    def handle_inputs(self, key):
-        if key == pygame.K_w:
-            self.player.walk(Controls.UP)
-        elif key == pygame.K_s:
-            self.player.walk(Controls.DOWN)
-        elif key == pygame.K_a:
-            self.player.walk(Controls.LEFT)
-        elif key == pygame.K_d:
-            self.player.walk(Controls.RIGHT)
     
 
-    def do_stuff(self):
+    def handle_inputs(self):
         keys = pygame.key.get_pressed()
+        if keys[pygame.K_LSHIFT]:
+            is_running = True
+        else:
+            is_running = False
+            
         if keys[pygame.K_w]:
-            self.player.walk(Controls.UP)
+            self.player.run(Controls.UP) if is_running else self.player.walk(Controls.UP)
         elif keys[pygame.K_s]:
-            self.player.walk(Controls.DOWN)
+            self.player.run(Controls.DOWN) if is_running else self.player.walk(Controls.DOWN)
         elif keys[pygame.K_a]:
-            self.player.walk(Controls.LEFT)
+            self.player.run(Controls.LEFT) if is_running else self.player.walk(Controls.LEFT)
         elif keys[pygame.K_d]:
-            self.player.walk(Controls.RIGHT)
+            self.player.run(Controls.RIGHT) if is_running else self.player.walk(Controls.RIGHT)

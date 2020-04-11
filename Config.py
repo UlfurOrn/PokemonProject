@@ -1,1 +1,2 @@
-SCALE = 48
+SCALE = 64
+FPS = 30
