@@ -46,10 +46,14 @@ class Player(pygame.sprite.Sprite):
             self.image_index = 0
 
     def run(self, direction):
-        if not self.running and not self.walking:
+        if not self.running:
             self.running = True
             self.direction = direction
-            self.image_index = 0
+
+            if self.walking:
+                self.image_index = self.image_index // int(self.WALK_ANIMATION_LENGTH / self.RUN_ANIMATION_LENGTH)
+            else:
+                self.image_index = 0
     
 
     def do_walk(self):
