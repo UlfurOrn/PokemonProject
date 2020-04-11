@@ -3,6 +3,7 @@ import pygame
 import Config
 from Controls import Controls
 from Player import Player
+from World import World
 
 class Game:
     SIZE = (640, 480)
@@ -11,6 +12,7 @@ class Game:
     def __init__(self):
         self.setup_pygame()
         self.setup_sprites()
+        self.setup_world()
 
 
     def setup_pygame(self):
@@ -39,7 +41,7 @@ class Game:
 
             self.update()
 
-            self.screen.fill((0,255,0))
+            self.draw_world()
             self.sprite_list.draw(self.screen)
 
             pygame.display.flip()
@@ -74,3 +76,12 @@ class Game:
             self.player.run(Controls.LEFT) if is_running else self.player.walk(Controls.LEFT)
         elif keys[pygame.K_d]:
             self.player.run(Controls.RIGHT) if is_running else self.player.walk(Controls.RIGHT)
+
+    
+
+
+    def setup_world(self):
+        self.world = World()
+
+    def draw_world(self):
+        self.world.draw(self.screen)
